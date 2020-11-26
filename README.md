@@ -16,16 +16,23 @@
 * Check if a fingerprint scanner is available
 * Fingerprint authentication
 * Ionic Native support
-* ngCordova support
 * Fallback options
-* Now with **FaceID** on iPhone X
+* **FaceID** support
 * **⚡️ Works with [Capacitor](https://capacitor.ionicframework.com/). [Try it out](https://github.com/NiklasMerz/capacitor-fingerprint-app) ⚡️**
+* [Encrypt and save secrets behind a biometric prompt](#show-authentication-dialogue-and-register-secret)
+
+## Version 4.0
+
+Version 4.0 of this plugin is a significant upgrade over the previous versions. Previous versions only allowed a visual fingerprint prompt. Version 4.0 allows **saving an encrypted secret behind the biometric prompt** for true security. Please test it out and report any issues. If this plugin has security issues please check the [security policy](https://github.com/NiklasMerz/cordova-plugin-fingerprint-aio/security/policy). If you do audits using this plugin please let me know the results. My email is on my Github profile.
+
+_Version 4 was developed almost 100% by other people than me (@NiklasMerz)._ **Please thank these awesome people for their work: @exxbrain, @leolio86400**. This is a community driven plugin and I don't do any real development anymore. But triaging issues and rewiewing and testing PRs is cumbersome work. If you depend on this plugin for your product please consider becoming my sponsor on Github to keep it going for a while. Some day I may consider stop working on it and pass it on to somebody interested. 
+
+**Version 4.0 is awesome so please us it and let us fix it:smile:.**
 
 ### Platforms
 
 * Android - Minimum SDK 23
-* iOS - **XCode 9.2 or higher** required
-  * _Please set `<preference name="UseSwiftLanguageVersion" value="4.0" />` in your config.xml_
+* iOS - **latest XCode** is required. Plugin sets Swift version 4.
 
 
 ## How to use
@@ -33,8 +40,6 @@
 **[Tutorial about using this plugin with Ionic](https://www.youtube.com/watch?v=tQDChMJ6er8)** thanks to Paul Halliday
 
 [Examples](https://github.com/NiklasMerz/fingerprint-aio-demo)
-
-[ngCordova Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ng-cordova)
 
 [Ionic Native Example](https://github.com/NiklasMerz/fingerprint-aio-demo/tree/ionic-native)
 
@@ -122,6 +127,74 @@ Fingerprint.show({
 * __cancelButtonTitle__: For cancel button on Android
 * __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
 
+### Show authentication dialogue and register secret
+```javascript
+Fingerprint.registerBiometricSecret({
+      description: "Some biometric description",
+      secret: "my-super-secret",
+      invalidateOnEnrollment: true,
+      disableBackup: true, // always disabled on Android
+    }, successCallback, errorCallback);
+
+    function successCallback(){
+      alert("Authentication successful");
+    }
+
+    function errorCallback(error){
+      alert("Authentication invalid " + error.message);
+    }
+```
+### Optional parameters
+
+* __title__: Title in authentication dialogue. Default: `"<APP_NAME> Biometric Sign On"`
+* __subtitle__: Subtitle in authentication dialogue. Default: `null`
+* __description__: Description in authentication dialogue. Defaults:
+  * iOS: `"Authenticate"` (iOS' [evaluatePolicy()](https://developer.apple.com/documentation/localauthentication/lacontext/1514176-evaluatepolicy?language=objc) requires this field)
+  * Android: `null`
+* __fallbackButtonTitle__: Title of fallback button. Defaults:
+  * When **disableBackup** is true
+     *  `"Cancel"`
+  * When **disableBackup** is false
+     * iOS: `"Use PIN"`
+     * Android: `"Use Backup"` (Because backup could be anything pin/pattern/password ..haven't figured out a reliable way to determine lock type yet [source](https://stackoverflow.com/questions/7768879/check-whether-lock-was-enabled-or-not/18720287))
+* __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback. NOTE: it will be disabled on Android
+* __cancelButtonTitle__: For cancel button on Android
+* __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
+* __secret__: String secret to encrypt and save, use simple strings matching the regex [a-zA-Z0-9\-]+
+* __invalidateOnEnrollment__: If `true` secret will be deleted when biometry items are deleted or enrolled 
+
+### Show authentication dialogue and load secret
+```javascript
+Fingerprint.loadBiometricSecret({
+      description: "Some biometric description",
+      disableBackup: true, // always disabled on Android
+    }, successCallback, errorCallback);
+
+    function successCallback(secret){
+      alert("Authentication successful, secret: " + secret);
+    }
+
+    function errorCallback(error){
+      alert("Authentication invalid " + error.message);
+    }
+```
+### Optional parameters
+
+* __title__: Title in authentication dialogue. Default: `"<APP_NAME> Biometric Sign On"`
+* __subtitle__: Subtitle in authentication dialogue. Default: `null`
+* __description__: Description in authentication dialogue. Defaults:
+  * iOS: `"Authenticate"` (iOS' [evaluatePolicy()](https://developer.apple.com/documentation/localauthentication/lacontext/1514176-evaluatepolicy?language=objc) requires this field)
+  * Android: `null`
+* __fallbackButtonTitle__: Title of fallback button. Defaults:
+  * When **disableBackup** is true
+     *  `"Cancel"`
+  * When **disableBackup** is false
+     * iOS: `"Use PIN"`
+     * Android: `"Use Backup"` (Because backup could be anything pin/pattern/password ..haven't figured out a reliable way to determine lock type yet [source](https://stackoverflow.com/questions/7768879/check-whether-lock-was-enabled-or-not/18720287))
+* __disableBackup__: If `true` remove backup option on authentication dialogue. Default: `false`. This is useful if you want to implement your own fallback. NOTE: it will be disabled on Android
+* __cancelButtonTitle__: For cancel button on Android
+* __confirmationRequired__ (**Android**): If `false` user confirmation is NOT required after a biometric has been authenticated . Default: `true`. See [docs](https://developer.android.com/training/sign-in/biometric-auth#no-explicit-user-action).
+
 ### Constants
 - **BIOMETRIC_UNKNOWN_ERROR** = `-100`;
 - **BIOMETRIC_UNAVAILABLE** = `-101`;
@@ -136,6 +209,7 @@ Fingerprint.show({
 - **BIOMETRIC_SCREEN_GUARD_UNSECURED** = `-110`;
 - **BIOMETRIC_LOCKED_OUT** = `-111`;
 - **BIOMETRIC_LOCKED_OUT_PERMANENT** = `-112`;
+- **BIOMETRIC_SECRET_NOT_FOUND** = `-113`;
 ***
 
 Thanks to the authors of the original fingerprint plugins
