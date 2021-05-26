@@ -10,6 +10,7 @@ class PromptInfo {
     private static final String TITLE = "title";
     private static final String SUBTITLE = "subtitle";
     private static final String DESCRIPTION = "description";
+    private static final String MAX_ATTEMPTS = "maxAttempts";
     private static final String FALLBACK_BUTTON_TITLE = "fallbackButtonTitle";
     private static final String CANCEL_BUTTON_TITLE = "cancelButtonTitle";
     private static final String CONFIRMATION_REQUIRED = "confirmationRequired";
@@ -36,6 +37,8 @@ class PromptInfo {
     String getDescription() {
         return bundle.getString(DESCRIPTION);
     }
+
+    Integer getMaxAttempts(){ return bundle.getInt(MAX_ATTEMPTS); }
 
     boolean isDeviceCredentialAllowed() {
         return !bundle.getBoolean(DISABLE_BACKUP);
@@ -72,6 +75,7 @@ class PromptInfo {
         private String title;
         private String subtitle = null;
         private String description = null;
+        private Integer maxAttempts = 5;
         private String fallbackButtonTitle = "Use backup";
         private String cancelButtonTitle = "Cancel";
         private boolean confirmationRequired = true;
@@ -103,6 +107,7 @@ class PromptInfo {
             bundle.putString(SUBTITLE, this.subtitle);
             bundle.putString(TITLE, this.title);
             bundle.putString(DESCRIPTION, this.description);
+            bundle.putInt(MAX_ATTEMPTS, this.maxAttempts);
             bundle.putString(FALLBACK_BUTTON_TITLE, this.fallbackButtonTitle);
             bundle.putString(CANCEL_BUTTON_TITLE, this.cancelButtonTitle);
             bundle.putString(SECRET, this.secret);
@@ -123,6 +128,7 @@ class PromptInfo {
             title = args.getString(TITLE, title);
             subtitle = args.getString(SUBTITLE, subtitle);
             description = args.getString(DESCRIPTION, description);
+            maxAttempts = args.getInteger(MAX_ATTEMPTS, maxAttempts);
             fallbackButtonTitle = args.getString(FALLBACK_BUTTON_TITLE, "Use Backup");
             cancelButtonTitle = args.getString(CANCEL_BUTTON_TITLE, "Cancel");
             confirmationRequired = args.getBoolean(CONFIRMATION_REQUIRED, confirmationRequired);

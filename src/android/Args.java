@@ -38,6 +38,18 @@ public class Args {
         return defaultValue;
     }
 
+    public Integer getInteger(String name, Integer defaultValue) {
+        try {
+            if (getArgsObject().optString(name) != null
+                    && !getArgsObject().optString(name).isEmpty()){
+                return getArgsObject().getInt(name);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Can't parse '" + name + "'. Default will be used.", e);
+        }
+        return defaultValue;
+    }
+
     private JSONObject getArgsObject() throws JSONException {
         if (this.argsObject != null) {
             return this.argsObject;

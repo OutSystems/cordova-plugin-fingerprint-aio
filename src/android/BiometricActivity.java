@@ -24,6 +24,7 @@ public class BiometricActivity extends AppCompatActivity {
     private CryptographyManager mCryptographyManager;
     private static final String SECRET_KEY = "__aio_secret_key";
     private BiometricPrompt mBiometricPrompt;
+    private static int numFailedAttempts = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,8 +38,13 @@ public class BiometricActivity extends AppCompatActivity {
             return;
         }
 
-        mCryptographyManager = new CryptographyManagerImpl();
         mPromptInfo = new PromptInfo.Builder(getIntent().getExtras()).build();
+        if(numFailedAttempts >= mPromptInfo.getMaxAttempts()) {
+            onError(PluginError.BIOMETRIC_LOCKED_OUT.getValue(), PluginError.BIOMETRIC_LOCKED_OUT.getMessage());
+            return;
+        }
+
+        mCryptographyManager = new CryptographyManagerImpl();
         final Handler handler = new Handler(Looper.getMainLooper());
         Executor executor = handler::post;
         mBiometricPrompt = new BiometricPrompt(this, executor, mAuthenticationCallback);
@@ -114,6 +120,7 @@ public class BiometricActivity extends AppCompatActivity {
 
                 @Override
                 public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                    numFailedAttempts = 0;
                     super.onAuthenticationSucceeded(result);
                     try {
                         finishWithSuccess(result.getCryptoObject());
@@ -124,6 +131,7 @@ public class BiometricActivity extends AppCompatActivity {
 
                 @Override
                 public void onAuthenticationFailed() {
+                    numFailedAttempts++;
                     super.onAuthenticationFailed();
                     onError(PluginError.BIOMETRIC_AUTHENTICATION_FAILED.getValue(), PluginError.BIOMETRIC_AUTHENTICATION_FAILED.getMessage());
                 }
