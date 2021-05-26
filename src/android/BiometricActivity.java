@@ -37,6 +37,7 @@ public class BiometricActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             return;
         }
+        
 
         mPromptInfo = new PromptInfo.Builder(getIntent().getExtras()).build();
         if(numFailedAttempts >= mPromptInfo.getMaxAttempts()) {
