@@ -40,8 +40,7 @@ public class Args {
 
     public Integer getInteger(String name, Integer defaultValue) {
         try {
-            if (getArgsObject().optString(name) != null
-                    && !getArgsObject().optString(name).isEmpty()){
+            if (getArgsObject().has(name)){
                 return getArgsObject().getInt(name);
             }
         } catch (JSONException e) {
