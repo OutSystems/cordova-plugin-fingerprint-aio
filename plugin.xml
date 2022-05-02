@@ -53,7 +53,7 @@
       <activity
           android:name="de.niklasmerz.cordova.biometric.BiometricActivity"
           android:theme="@style/TransparentTheme"
-          android:exported="true" />
+          android:exported="false" />
     </config-file>
     
     <framework src="src/android/build.gradle" custom="true" type="gradleReference"/>
