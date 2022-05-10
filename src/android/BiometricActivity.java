@@ -134,7 +134,6 @@ public class BiometricActivity extends AppCompatActivity {
                 public void onAuthenticationFailed() {
                     numFailedAttempts++;
                     super.onAuthenticationFailed();
-                    onError(PluginError.BIOMETRIC_AUTHENTICATION_FAILED.getValue(), PluginError.BIOMETRIC_AUTHENTICATION_FAILED.getMessage());
                 }
             };
 
