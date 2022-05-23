@@ -157,8 +157,13 @@ public class Fingerprint extends CordovaPlugin {
 
             PluginResult result = new PluginResult(PluginResult.Status.ERROR, resultJson);
             result.setKeepCallback(true);
-            cordova.getActivity().runOnUiThread(() ->
-                    Fingerprint.this.mCallbackContext.sendPluginResult(result));
+            if(Fingerprint.this.mCallbackContext != null){
+                cordova.getActivity().runOnUiThread(() ->
+                        Fingerprint.this.mCallbackContext.sendPluginResult(result));
+            }
+            else{
+                Log.e(TAG, code + ":" + message);
+            }
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage(), e);
         }
