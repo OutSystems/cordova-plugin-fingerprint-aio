@@ -131,8 +131,12 @@ public class BiometricActivity extends AppCompatActivity {
 
                 @Override
                 public void onAuthenticationFailed() {
-                    numFailedAttempts++;
                     super.onAuthenticationFailed();
+                    numFailedAttempts++;
+                    if(numFailedAttempts >= mPromptInfo.getMaxAttempts()) {
+                        onError(PluginError.BIOMETRIC_LOCKED_OUT.getValue(), PluginError.BIOMETRIC_LOCKED_OUT.getMessage());
+                        mBiometricPrompt.cancelAuthentication();
+                    }
                 }
             };
 
