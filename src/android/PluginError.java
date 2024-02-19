@@ -13,7 +13,11 @@ public enum PluginError {
     BIOMETRIC_LOCKED_OUT(-111, "Too many failed attempts. Try again later."),
     BIOMETRIC_LOCKED_OUT_PERMANENT(-112),
     BIOMETRIC_NO_SECRET_FOUND(-113),
-    BIOMETRIC_ARGS_PARSING_FAILED(-115);
+    BIOMETRIC_ARGS_PARSING_FAILED(-115),
+
+    BIOMETRIC_SECURITY_VULNERABILITY(-116,
+            "A security vulnerability has been discovered with one or more hardware sensors. The affected sensor(s) are unavailable until a security update has addressed the issue."),
+    ;
 
     private int value;
     private String message;
