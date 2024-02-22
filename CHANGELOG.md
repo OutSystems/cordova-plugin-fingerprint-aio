@@ -2,7 +2,10 @@
 All notable changes to this project will be documented in this file.
 
 
-## [Unreleased]
+## [4.0.1-OS5]
+
+### 19-02-2024
+- [Android] Add catch to two biometric errors. (https://outsystemsrd.atlassian.net/browse/RMET-3176)
 
 ## [4.0.1-OS4]
 
