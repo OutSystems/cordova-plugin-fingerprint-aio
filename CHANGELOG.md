@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [4.0.1-OS6]
+
+### 27-11-2024
+- [Android] Fix issue where multiple wrong biometric attempts would cause the plugin to return lockout automatically in future prompts.
 
 ## [4.0.1-OS5]
 
