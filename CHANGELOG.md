@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+### 05-12-2024
+- [Android] Add error messages for several biometrics errors (https://outsystemsrd.atlassian.net/browse/RMET-2652)
+
 ## [4.0.1-OS6]
 
 ### 27-11-2024
