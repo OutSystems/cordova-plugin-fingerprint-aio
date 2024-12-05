@@ -13,7 +13,6 @@ Fingerprint.prototype.BIOMETRIC_PERMISSION_NOT_GRANTED = -105;
 Fingerprint.prototype.BIOMETRIC_NOT_ENROLLED = -106;
 Fingerprint.prototype.BIOMETRIC_INTERNAL_PLUGIN_ERROR = -107;
 Fingerprint.prototype.BIOMETRIC_DISMISSED = -108;
-Fingerprint.prototype.BIOMETRIC_PIN_OR_PATTERN_DISMISSED = -109;
 Fingerprint.prototype.BIOMETRIC_SCREEN_GUARD_UNSECURED = -110;
 Fingerprint.prototype.BIOMETRIC_LOCKED_OUT = -111;
 Fingerprint.prototype.BIOMETRIC_LOCKED_OUT_PERMANENT = -112;
